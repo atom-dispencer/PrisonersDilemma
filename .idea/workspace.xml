@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="af27fc66-86ae-414d-8e3a-7c803698a132" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/AllVersusAllCompetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/AllVersusAllCompetition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/Duel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/Duel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/DuelResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/DuelResult.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

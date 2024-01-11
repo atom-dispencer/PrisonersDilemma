@@ -1,8 +1,10 @@
 package uk.iatom.prisonersdilemma.duels;
 
+import uk.iatom.prisonersdilemma.strategies.AbstractStrategy;
+
 import java.util.Arrays;
 
-public record DuelResult(boolean[][] decisions, int[][] scores) {
+public record DuelResult(Duel duel, boolean[][] decisions, int[][] scores) {
 
     public int[] totals() {
         return new int[]{

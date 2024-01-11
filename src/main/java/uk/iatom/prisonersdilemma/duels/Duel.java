@@ -37,6 +37,7 @@ public class Duel {
         }
 
         return new DuelResult(
+                this,
                 new boolean[][]{decisions0, decisions1},
                 new int[][]{scores0, scores1}
         );

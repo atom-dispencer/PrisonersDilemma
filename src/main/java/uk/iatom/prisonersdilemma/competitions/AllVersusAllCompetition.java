@@ -35,6 +35,7 @@ public class AllVersusAllCompetition {
         }
 
         String duelNameFormat = "%s  vs.  %s     [%s]";
+        
         for (Duel d : duels) {
             DuelResult results = d.getDuelResults();
             increaseSuperTotal(d.strategy0, results.totals()[0]);

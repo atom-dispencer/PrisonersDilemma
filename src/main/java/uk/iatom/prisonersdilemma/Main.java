@@ -25,9 +25,9 @@ public class Main {
         //strategiesMap.put(new ForgivingTitForTat(0.2f), ',');
         //strategiesMap.put(new ForgivingTitForTat(0.1f), 'f');
 
-//        AbstractStrategy[] strategiesArray = strategiesMap.keySet().toArray(new AbstractStrategy[0]);
-//        AllVersusAllCompetition allVersusAllCompetition = new AllVersusAllCompetition(strategiesArray);
-//        allVersusAllCompetition.runDuelSets(1000);
+        AbstractStrategy[] strategiesArray = strategiesMap.keySet().toArray(new AbstractStrategy[0]);
+        AllVersusAllCompetition allVersusAllCompetition = new AllVersusAllCompetition(strategiesArray);
+        allVersusAllCompetition.runDuelSets(100);
 
         GridCompetition gridCompetition = new GridCompetition(15, 100, 0.05f, strategiesMap);
         gridCompetition.runNewGridLifecycle(2000, 1);
