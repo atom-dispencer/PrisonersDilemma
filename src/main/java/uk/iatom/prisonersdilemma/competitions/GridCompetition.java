@@ -50,7 +50,7 @@ public class GridCompetition {
 
             if (
                     r % printGridEveryXRounds == 0
-                    && r != 0
+                            && r != 0
             ) printGrid(r, grid);
         }
     }
@@ -72,45 +72,56 @@ public class GridCompetition {
         Collections.shuffle(updateOrderX);
         Collections.shuffle(updateOrderY);
 
-        for (int x : updateOrderX) {
+        // Parallel mapping
+        IntStream.range(0, size - 1).parallel().forEach(x -> {
+                    nextRoundGrid[x] = new AbstractStrategy[size];
+
+                    IntStream.range(0, size - 1).parallel().forEach(y -> nextRoundGrid[x][y] = findWinningStrategyForSquare(grid, x, y));
+                }
+        );
+
+        // Serial mapping
+        /*for (int x : updateOrderX) {
             for (int y : updateOrderY) {
-
-                AbstractStrategy incumbent = getStratAtPosOrNull(grid, x, y);
-
-                Map<AbstractStrategy, Integer> scores = new HashMap<>();
-                int successfulDuels = 0;
-                for (int xx = x - 1; xx <= x + 1; xx++) {
-                    for (int yy = y - 1; yy <= y + 1; yy++) {
-                        if (xx == x && yy == y) continue;
-
-                        AbstractStrategy competitor = getStratAtPosOrNull(grid, xx, yy);
-                        if (competitor == null) continue;
-
-                        int[] totals = duel(incumbent, competitor).totals();
-                        scores.putIfAbsent(incumbent, 0);
-                        scores.put(incumbent, scores.get(incumbent) + totals[0]);
-                        scores.putIfAbsent(competitor, 0);
-                        scores.put(competitor, scores.get(competitor) + totals[1]);
-
-                        successfulDuels++;
-                    }
-                }
-                // Average the incumbent's score because it got extra attempts
-                if (successfulDuels > 0)
-                    scores.put(incumbent, scores.get(incumbent) / successfulDuels);
-
-                if (!scores.isEmpty()) {
-                    List<Map.Entry<AbstractStrategy, Integer>> scoresList = new ArrayList<>(scores.entrySet().stream().toList());
-                    scoresList.sort(Map.Entry.comparingByValue());
-                    nextRoundGrid[x][y] = scoresList.get(scoresList.size() - 1).getKey();
-                } else {
-                    nextRoundGrid[x][y] = incumbent;
-                }
-
+                nextRoundGrid[x][y] = findWinningStrategyForSquare(grid, x, y);
             }
-        }
+        }*/
 
         return nextRoundGrid;
+    }
+
+    private AbstractStrategy findWinningStrategyForSquare(AbstractStrategy[][] grid, int x, int y) {
+        AbstractStrategy incumbent = getStratAtPosOrNull(grid, x, y);
+
+        Map<AbstractStrategy, Integer> scores = new HashMap<>();
+        int successfulDuels = 0;
+        for (int xx = x - 1; xx <= x + 1; xx++) {
+            for (int yy = y - 1; yy <= y + 1; yy++) {
+                if (xx == x && yy == y) continue;
+
+                AbstractStrategy competitor = getStratAtPosOrNull(grid, xx, yy);
+                if (competitor == null) continue;
+
+                int[] totals = duel(incumbent, competitor).totals();
+                scores.putIfAbsent(incumbent, 0);
+                scores.put(incumbent, scores.get(incumbent) + totals[0]);
+                scores.putIfAbsent(competitor, 0);
+                scores.put(competitor, scores.get(competitor) + totals[1]);
+
+                successfulDuels++;
+            }
+        }
+        // Average the incumbent's score because it got extra attempts
+        if (successfulDuels > 0)
+            scores.put(incumbent, scores.get(incumbent) / successfulDuels);
+
+        if (!scores.isEmpty()) {
+            List<Map.Entry<AbstractStrategy, Integer>> scoresList = new ArrayList<>(scores.entrySet().stream().toList());
+            scoresList.sort(Map.Entry.comparingByValue());
+            return scoresList.get(scoresList.size() - 1).getKey();
+        } else {
+            return incumbent;
+        }
     }
 
     public DuelResult duel(AbstractStrategy incumbent, AbstractStrategy competitor) {

@@ -30,6 +30,6 @@ public class Main {
 //        allVersusAllCompetition.runDuelSets(1000);
 
         GridCompetition gridCompetition = new GridCompetition(15, 100, 0.05f, strategiesMap);
-        gridCompetition.runNewGridLifecycle(200, 1);
+        gridCompetition.runNewGridLifecycle(2000, 1);
     }
 }

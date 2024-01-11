@@ -5,32 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af27fc66-86ae-414d-8e3a-7c803698a132" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/AllVersusAllCompetition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/Duel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/DuelResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/MessyDuel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/AbstractStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/ForgivingTitForTat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperAggressive.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperPassive.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/RandomChoice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/SlowTitForTat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTwoTat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +28,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "atom-dispencer"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="a2b530d9-46c2-4fe5-aefb-e04f24ca70e0" />
+        <option name="url" value="git@github.com:atom-dispencer/PrisonersDilemma.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 4
