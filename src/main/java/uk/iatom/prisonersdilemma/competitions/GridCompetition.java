@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.IntStream;
+import uk.iatom.prisonersdilemma.Main;
 import uk.iatom.prisonersdilemma.duels.Duel;
 import uk.iatom.prisonersdilemma.duels.DuelResult;
 import uk.iatom.prisonersdilemma.duels.MessyDuel;
@@ -30,6 +31,72 @@ public class GridCompetition {
     this.random = new Random();
   }
 
+  public static void startGrid(List<Float> arguments, List<String> strategyConfigs) {
+
+    if (arguments.size() != 5) {
+      System.err.printf(
+          "Competition:Grid takes 5 arguments, (int size, int roundsPerContest, float corruptionChance, int gridIterations, int printGridEveryXRounds), but found %d%n.",
+          arguments.size());
+      System.exit(-14);
+    }
+
+    int size = arguments.get(0).intValue();
+    int roundsPerContest = arguments.get(1).intValue();
+    float corruptionChance = arguments.get(2);
+    int gridIterations = arguments.get(3).intValue();
+    int printGridEveryXRounds = arguments.get(4).intValue();
+
+    if (size < 5) {
+      System.err.printf("Minimum grid size is 5, found %d%n.", size);
+      System.exit(-11);
+    }
+    if (roundsPerContest < 1) {
+      System.err.printf("Minimum roundsPerContest size is 1, found %d%n.", roundsPerContest);
+      System.exit(-12);
+    }
+    if (corruptionChance < 0 || corruptionChance > 1) {
+      System.err.printf("corruptionChance must be in interval [0,1], found %f%n.",
+          corruptionChance);
+      System.exit(-13);
+    }
+
+    System.out.printf("Parsed GridCompetition(size=%d, roundsPerContest=%d, corruptionChance=%f)%n",
+        size, roundsPerContest, corruptionChance);
+
+    Map<AbstractStrategy, Character> strategyCharacterMap = new HashMap<>();
+    for (String config : strategyConfigs) {
+
+      String[] split = config.split(":");
+      if (split.length != 2) {
+        System.err.printf(
+            "There must be exactly 2 configuration sections (':' delimited) per strategy-line. Found %d on line '%s'.%n",
+            split.length, config);
+        System.exit(-3);
+      }
+
+      if (split[0].length() != 1) {
+        System.err.printf(
+            "The first character section of a GridCompetition strategy must be a single identification character. '%s' in line '%s' does not comply",
+            split[0], config);
+        System.exit(-4);
+      }
+      char key = split[0].charAt(0);
+
+      AbstractStrategy abstractStrategy = Main.parseStrategy(split[1]);
+      strategyCharacterMap.put(abstractStrategy, key);
+    }
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("Parsed Strategies:\n");
+    strategyCharacterMap.forEach(
+        (as, ch) -> builder.append(" - ").append(ch).append(":").append(as.getName()).append("\n"));
+    System.out.println(builder);
+
+    GridCompetition gridCompetition = new GridCompetition(size, roundsPerContest, corruptionChance,
+        strategyCharacterMap);
+    gridCompetition.runNewGridLifecycle(gridIterations, printGridEveryXRounds);
+  }
+
   public AbstractStrategy[][] getRandomGrid() {
     AbstractStrategy[][] grid = new AbstractStrategy[size][size];
 
@@ -50,17 +117,23 @@ public class GridCompetition {
   public void runNewGridLifecycle(int rounds, int printGridEveryXRounds) {
     AbstractStrategy[][] grid = getRandomGrid();
 
+    long startTime = System.nanoTime();
+
+    System.out.printf("%n%n ~~ Grid Competition ~~ %n");
+    System.out.printf(" %d rounds; %d competitors%n%n", rounds, strategies.size());
+
     printGrid(0, grid);
     for (int r = 0; r < rounds; r++) {
       grid = getNextRoundsGrid(grid);
 
-      if (
-          r % printGridEveryXRounds == 0
-              && r != 0
-      ) {
+      if (r % printGridEveryXRounds == 0 && r != 0) {
         printGrid(r, grid);
       }
     }
+
+    long durationNanos = System.nanoTime() - startTime;
+    float durationSeconds = (float) (((double) durationNanos) / 1_000_000_000f);
+    System.out.printf("%n%nCompetition took %fs.%n", durationSeconds);
   }
 
   public AbstractStrategy getStratAtPosOrNull(AbstractStrategy[][] grid, int x, int y) {
@@ -88,19 +161,11 @@ public class GridCompetition {
 
     // Parallel mapping
     IntStream.range(0, size - 1).parallel().forEach(x -> {
-          nextRoundGrid[x] = new AbstractStrategy[size];
+      nextRoundGrid[x] = new AbstractStrategy[size];
 
-          IntStream.range(0, size - 1).parallel()
-              .forEach(y -> nextRoundGrid[x][y] = findWinningStrategyForSquare(grid, x, y));
-        }
-    );
-
-    // Serial mapping
-        /*for (int x : updateOrderX) {
-            for (int y : updateOrderY) {
-                nextRoundGrid[x][y] = findWinningStrategyForSquare(grid, x, y);
-            }
-        }*/
+      IntStream.range(0, size - 1).parallel()
+          .forEach(y -> nextRoundGrid[x][y] = findWinningStrategyForSquare(grid, x, y));
+    });
 
     return nextRoundGrid;
   }

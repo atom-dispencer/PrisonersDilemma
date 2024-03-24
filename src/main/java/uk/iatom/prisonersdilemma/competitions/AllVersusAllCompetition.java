@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import uk.iatom.prisonersdilemma.Main;
 import uk.iatom.prisonersdilemma.duels.Duel;
 import uk.iatom.prisonersdilemma.duels.DuelResult;
 import uk.iatom.prisonersdilemma.duels.MessyDuel;
@@ -17,6 +18,19 @@ public class AllVersusAllCompetition {
 
   public AllVersusAllCompetition(AbstractStrategy[] strategies) {
     this.strategies = strategies;
+  }
+
+  public static void startAllVersusAll(List<Float> arguments, List<String> strategyStrings) {
+
+    List<AbstractStrategy> abstractStrategies = new ArrayList<>();
+    for (String strategy : strategyStrings) {
+      AbstractStrategy abstractStrategy = Main.parseStrategy(strategy);
+      System.out.printf("Adding strategy: %s%n", abstractStrategy.getName());
+      abstractStrategies.add(abstractStrategy);
+    }
+
+    AbstractStrategy[] array = new AbstractStrategy[abstractStrategies.size()];
+    new AllVersusAllCompetition(abstractStrategies.toArray(array)).runDuelSet();
   }
 
   public void runDuelSet() {

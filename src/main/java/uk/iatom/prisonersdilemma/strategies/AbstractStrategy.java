@@ -6,6 +6,15 @@ public abstract class AbstractStrategy {
     return getClass().getSimpleName();
   }
 
-  public abstract boolean shouldBetray(int round, boolean[] myDecisions,
-      boolean[] opponentDecisions);
+  /**
+   * Given the round and this and the opponent's decisions, decide whether to betray on this round.
+   * The decision should be make in an information vacuum, i.e. this strategy may not probe or
+   * question the other strategy, except by analysing their previous responses. An
+   * {@link AbstractStrategy} must be totally stateless to allow the possibility of a single
+   * strategy controlling multiple entities in some competitions.
+   *
+   * @return `true` if the strategy wishes to betray, or `false` if it wishes to cooperate.
+   */
+  public abstract boolean shouldBetray(final int round, final boolean[] myDecisions,
+      final boolean[] opponentDecisions);
 }

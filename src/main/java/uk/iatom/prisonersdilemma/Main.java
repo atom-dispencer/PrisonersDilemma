@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import uk.iatom.prisonersdilemma.competitions.AllVersusAllCompetition;
@@ -25,7 +27,21 @@ public class Main {
   private static final String ARGUMENTS_REGEX = "(\\(.*?\\))";
   private static final Pattern ARGUMENTS_PATTERN = Pattern.compile(ARGUMENTS_REGEX);
 
+  private static final Map<String, BiConsumer<List<Float>, List<String>>> competitionSuppliers = new HashMap<>();
+  private static final Map<String, Function<List<Float>, AbstractStrategy>> strategySuppliers = new HashMap<>();
+
   public static void main(String[] args) {
+
+    competitionSuppliers.put("AllVersusAll", AllVersusAllCompetition::startAllVersusAll);
+    competitionSuppliers.put("Grid", GridCompetition::startGrid);
+
+    strategySuppliers.put("RandomChoice", (arguments) -> new RandomChoice());
+    strategySuppliers.put("HyperPassive", (arguments) -> new HyperPassive());
+    strategySuppliers.put("HyperAggressive", (arguments) -> new HyperAggressive());
+    strategySuppliers.put("TitForTat", (arguments) -> new TitForTat());
+    strategySuppliers.put("TitForTwoTat", (arguments) -> new TitForTwoTat());
+    strategySuppliers.put("SlowTitForTat", (arguments) -> new SlowTitForTat());
+    strategySuppliers.put("ForgivingTitForTat", ForgivingTitForTat::createForgivingTitForTat);
 
     List<String> lines = null;
     try {
@@ -56,83 +72,59 @@ public class Main {
       System.exit(-8);
     }
 
-    Matcher matcher = ARGUMENTS_PATTERN.matcher(typeString.trim());
-    if (!matcher.find()) {
+    Matcher argumentsMatcher = ARGUMENTS_PATTERN.matcher(typeString.trim());
+    if (!argumentsMatcher.find()) {
       System.err.println("No competition arguments found. Must be at least ().");
       System.exit(-8);
     }
-    String group = matcher.group(1);
-    float[] competitionArguments = parseArgsList(group);
+    String group = argumentsMatcher.group(1);
+    List<Float> competitionArguments = parseArgsList(group);
 
-    if (typeString.trim().startsWith("Competition:AllVersusAll")) {
-      startAllVersusAll(strategies);
-    } else if (typeString.trim().startsWith("Competition:Grid")) {
-      startGrid(competitionArguments, strategies);
-    } else {
-      System.err.printf("No valid competition type specified, found: %s%n", typeString);
-      System.exit(-10);
+    Pattern pattern = Pattern.compile("(?<=Competition:)(.+)(?=\\()");
+    Matcher nameMatcher = pattern.matcher(typeString);
+
+    if (!nameMatcher.find()) {
+      System.err.printf("Could not parse competition name in %s.%n", typeString);
+      System.exit(-16);
     }
+    String competitionName = nameMatcher.group(1);
 
-//    HashMap<AbstractStrategy, Character> strategiesMap = new HashMap<>();
-//    strategiesMap.put(new HyperAggressive(), 'x');
-//    strategiesMap.put(new HyperAggressive(), 'x');
-//    strategiesMap.put(new HyperAggressive(), 'x');
-//    strategiesMap.put(new HyperAggressive(), 'x');
-//    strategiesMap.put(new HyperAggressive(), 'x');
-////        strategiesMap.put(new HyperAggressive(), 'x');
-////        strategiesMap.put(new HyperAggressive(), 'x');
-////        strategiesMap.put(new HyperAggressive(), 'x');
-////        strategiesMap.put(new HyperAggressive(), 'x');
-////        strategiesMap.put(new HyperPassive(), '.');
-////        strategiesMap.put(new RandomChoice(), '?');
-//    strategiesMap.put(new TitForTat(), '~');
-//    strategiesMap.put(new TitForTat(), '~');
-//    strategiesMap.put(new TitForTat(), '~');
-//    strategiesMap.put(new TitForTat(), '~');
-//    strategiesMap.put(new TitForTat(), '~');
-////        strategiesMap.put(new TitForTwoTat(), '2');
-////        strategiesMap.put(new SlowTitForTat(), 'S');
-////        strategiesMap.put(new ForgivingTitForTat(0.2f), ',');
-////        strategiesMap.put(new ForgivingTitForTat(0.1f), 'f');
-//
-////        AbstractStrategy[] strategiesArray = strategiesMap.keySet().toArray(new AbstractStrategy[0]);
-////        AllVersusAllCompetition allVersusAllCompetition = new AllVersusAllCompetition(strategiesArray);
-////        allVersusAllCompetition.runDuelSets(100);
-//
-//    GridCompetition gridCompetition = new GridCompetition(15, 100, 0.05f, strategiesMap);
-//    gridCompetition.runNewGridLifecycle(200, 1);
-//
-//    AllVersusAllCompetition ava = new AllVersusAllCompetition(new AbstractStrategy[]{});
-//    ava.runDuelSet();
+    if (!competitionSuppliers.containsKey(competitionName)) {
+      System.err.printf("'%s' is not a valid competition name.%n", competitionName);
+      System.exit(-17);
+    }
+    BiConsumer<List<Float>, List<String>> competitionSupplier = competitionSuppliers.get(
+        competitionName);
+
+    competitionSupplier.accept(competitionArguments, strategies);
   }
 
-  /**
-   * Parses '(4, 5, 6, 7)' into { 4, 5, 6, 7 }
-   *
-   * @param args
-   * @return
-   * @throws NumberFormatException
-   */
-  private static float[] parseArgsList(String args) throws NumberFormatException {
+  private static List<Float> parseArgsList(String args) throws NumberFormatException {
 
     if (args.trim().startsWith("(") && args.trim().endsWith(")")) {
       if (args.length() <= 2) {
-        return new float[0];
+        return new ArrayList<>();
       }
-      args = args.substring(1, args.length() - 2);
+      args = args.substring(1, args.length() - 1);
     }
 
     String[] split = args.split(",");
-    float[] arguments = new float[split.length];
+    List<Float> arguments = new ArrayList<>();
 
-    for (int i = 0; i < split.length; i++) {
-      arguments[i] = Float.parseFloat(split[i]);
+    for (String s : split) {
+      String maybeFloat = s.trim();
+      try {
+        arguments.add(Float.parseFloat(maybeFloat));
+      } catch (NumberFormatException numberFormatException) {
+        System.err.printf("Unable to parse String '%s' to Float.%n", maybeFloat);
+        System.exit(-14);
+      }
     }
 
     return arguments;
   }
 
-  private static AbstractStrategy parseStrategy(String strategyConfig) {
+  public static AbstractStrategy parseStrategy(String strategyConfig) {
     Matcher matcher = ARGUMENTS_PATTERN.matcher(strategyConfig);
 
     String[] nameOnly = strategyConfig.split(ARGUMENTS_REGEX);
@@ -152,21 +144,21 @@ public class Main {
     }
 
     String group = matcher.group();
-    float[] arguments = parseArgsList(group);
+    List<Float> arguments = parseArgsList(group);
 
     try {
-      return switch (name) {
-        case "RandomChoice" -> new RandomChoice();
-        case "HyperPassive" -> new HyperPassive();
-        case "HyperAggressive" -> new HyperAggressive();
-        case "TitForTat" -> new TitForTat();
-        case "TitForTwoTat" -> new TitForTwoTat();
-        case "SlowTitForTat" -> new SlowTitForTat();
-        case "ForgivingTitForTat" -> new ForgivingTitForTat(arguments[0]);
-        default -> throw new IllegalStateException("No such strategy: %s".formatted(name));
-      };
+
+      if (!strategySuppliers.containsKey(name)) {
+        throw new IllegalStateException("No such strategy: %s".formatted(name));
+      }
+
+      Function<List<Float>, AbstractStrategy> strategy = strategySuppliers.get(name);
+
+      List<Float> floats = new ArrayList<>(arguments);
+      return strategy.apply(floats);
+
     } catch (IndexOutOfBoundsException outOfBoundsException) {
-      System.err.printf("Insufficient number of arguments %d for %s", arguments.length, name);
+      System.err.printf("Insufficient number of arguments %d for %s", arguments.size(), name);
       System.exit(-7);
     } catch (IllegalStateException illegalStateException) {
       System.err.println(illegalStateException.getMessage());
@@ -176,56 +168,4 @@ public class Main {
     return null;
   }
 
-  private static void startAllVersusAll(List<String> strategyStrings) {
-
-    List<AbstractStrategy> abstractStrategies = new ArrayList<>();
-    for (String strategy : strategyStrings) {
-      AbstractStrategy abstractStrategy = parseStrategy(strategy);
-      System.out.printf("Adding strategy: %s%n", abstractStrategy.getName());
-      abstractStrategies.add(abstractStrategy);
-    }
-
-    AbstractStrategy[] array = new AbstractStrategy[abstractStrategies.size()];
-    new AllVersusAllCompetition(abstractStrategies.toArray(array)).runDuelSet();
-  }
-
-  private static void startGrid(float[] gridArguments, List<String> strategyConfigs) {
-    int size = (int) gridArguments[0];
-    int roundsPerContest = (int) gridArguments[1];
-    float corruptionChance = gridArguments[2];
-
-    System.out.printf("Parsed GridCompetition(size=%d, roundsPerContest=%d, corruptionChance=%f)%n",
-        size, roundsPerContest, corruptionChance);
-
-    Map<AbstractStrategy, Character> strategyCharacterMap = new HashMap<>();
-    for (String config : strategyConfigs) {
-
-      String[] split = config.split(":");
-      if (split.length != 2) {
-        System.err.printf(
-            "There must be exactly 2 configuration sections (':' delimited) per strategy-line. Found %d on line '%s'.%n",
-            split.length, config);
-        System.exit(-3);
-      }
-
-      if (split[0].length() != 1) {
-        System.err.printf(
-            "The first character section of a GridCompetition strategy must be a single identification character. '%s' in line '%s' does not comply",
-            split[0], config);
-        System.exit(-4);
-      }
-      char key = split[0].charAt(0);
-
-      AbstractStrategy abstractStrategy = parseStrategy(split[1]);
-      strategyCharacterMap.put(abstractStrategy, key);
-    }
-
-    StringBuilder builder = new StringBuilder();
-    builder.append("Parsed Strategies:\n");
-    strategyCharacterMap.forEach(
-        (as, ch) -> builder.append(" - ").append(ch).append(":").append(as.getName()).append("\n"));
-    System.out.println(builder);
-
-    new GridCompetition(size, roundsPerContest, corruptionChance, strategyCharacterMap);
-  }
 }
