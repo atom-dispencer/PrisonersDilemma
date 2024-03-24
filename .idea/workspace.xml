@@ -5,11 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af27fc66-86ae-414d-8e3a-7c803698a132" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/scenario.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/AllVersusAllCompetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/AllVersusAllCompetition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/competitions/GridCompetition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/Duel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/Duel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/DuelResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/DuelResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/MessyDuel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/duels/MessyDuel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/AbstractStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/AbstractStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/ForgivingTitForTat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/ForgivingTitForTat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperAggressive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperAggressive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperPassive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/HyperPassive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/RandomChoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/RandomChoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/SlowTitForTat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/SlowTitForTat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTwoTat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/strategies/TitForTwoTat.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +45,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "atom-dispencer"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;atom-dispencer&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -46,9 +59,9 @@
       </UrlAndAccount>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2anruELahJAXAaHR8mj6tb9Mukm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -57,10 +70,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Gradle.Build PrisonersDilemma.executor": "Run",
+    "Gradle.PrisonersDilemma [:Main.main()].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Java/openjdk-21.0.2"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -75,10 +93,19 @@
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.iatom.prisonersdilemma.Main" />
+      <module name="PrisonersDilemma.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,5 +117,16 @@
       <updated>1704965411858</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uk/iatom/prisonersdilemma/Main.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

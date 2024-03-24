@@ -4,10 +4,10 @@ import java.util.Random;
 
 public class RandomChoice extends AbstractStrategy {
 
-    private Random random = new Random();
+  private Random random = new Random();
 
-    @Override
-    public boolean shouldBetray(int round, boolean[] myDecisions, boolean[] opponentDecisions) {
-        return random.nextBoolean();
-    }
+  @Override
+  public boolean shouldBetray(int round, boolean[] myDecisions, boolean[] opponentDecisions) {
+    return random.nextBoolean();
+  }
 }
